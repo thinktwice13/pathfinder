@@ -19,9 +19,7 @@ export function findStart(map: string[][]) {
 
   // there can only be one start and one end
   if (startCount !== 1 || endCount !== 1) {
-    throw new Error(
-      "Invalid map with " + startCount + " starts and " + endCount + " ends",
-    );
+    throw new Error("Invalid map");
   }
 
   return point!; // point is guaranteed to be set here

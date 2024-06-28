@@ -2,6 +2,22 @@ import * as fs from "fs";
 import * as path from "path";
 import { TxtFileReader } from "../reader";
 import getPath from "..//path";
+import { Result } from "../path/types";
+
+const filenameResult: Record<string, Result> = {
+  "basic.txt": { path: "@---A---+|C|+---+|+-B-x", letters: "ACB" },
+  "intersection.txt": {
+    path: "@|A+---B--+|+--C-+|-||+---D--+|x",
+    letters: "ABCD",
+  },
+  "visitedLetter.txt": {
+    path: "@-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x",
+    letters: "GOONIES",
+  },
+  "letterTurns.txt": { path: "@---A---+|||C---+|+-B-x", letters: "ACB" },
+  "compact.txt": { path: "@B+++B|+-L-+A+++A-+Hx", letters: "BLAH" },
+  "postEnd.txt": { path: "@-A--+|+-B--x", letters: "AB" },
+};
 
 describe("valid samples", () => {
   const files = fs.readdirSync(path.join(__dirname, "samples/ok"));
@@ -13,14 +29,36 @@ describe("valid samples", () => {
   });
 
   maps.forEach(([file, map]) => {
-    it(`should return correct path for ${file}`, () => {
-      const { path, letters } = getPath(map);
-      console.log(letters, path);
-      expect(letters).not.toBe("");
-      expect(path).not.toBe("");
+    it(`returns correct result for ${file}`, () => {
+      console.log(file);
+      expect(getPath(map)).toEqual(filenameResult[file]);
     });
   });
 });
+
+const errFromFilename = (filename: string) => {
+  switch (filename) {
+    case "broken.txt":
+      return "Broken path";
+    case "fakeTurn.txt":
+      return "Fake turn";
+    case "multibranch.txt":
+    // NOTE: requirements asking for fork error, but map is discarded earlier
+    // return "Multiple branches";
+    case "turnFork.txt":
+    // NOTE: requirements asking for multiple branches error, but map is discarded earlier
+    // return "Fork";
+    case "multistart.txt":
+    case "multistart2.txt":
+    case "multistart3.txt":
+    case "noend.txt":
+    case "nostart.txt":
+      return "Invalid map";
+      return "Invalid map";
+    default:
+      return undefined;
+  }
+};
 
 describe("invalid samples", () => {
   const files = fs.readdirSync(path.join(__dirname, "samples/err"));
@@ -33,7 +71,9 @@ describe("invalid samples", () => {
 
   maps.forEach(([file, map]) => {
     it(`should throw error for ${file}`, () => {
-      expect(() => getPath(map)).toThrowError();
+      const errMessage = errFromFilename(file);
+
+      expect(() => getPath(map)).toThrowError(errMessage);
     });
   });
 });
