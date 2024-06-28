@@ -1,5 +1,7 @@
+// Point is a coordinate. Prefer row and col over x and y for clarity.
 export type Point = { readonly row: number; readonly col: number };
 
+// TODO consider removing enum, barely used
 export enum Direction {
   Right,
   Down,
@@ -23,4 +25,10 @@ export type MoveOption = {
   isVisited: boolean;
 };
 
-export type Result = { letters: string; path: string };
+// Result represents the final output of the program
+export type Result = {
+  // letters is the string of letters collected along the path, can be repeated but each only visited once
+  letters: string;
+  // path is all the elements visited in order
+  path: string;
+};
