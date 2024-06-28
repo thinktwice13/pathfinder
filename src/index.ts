@@ -1,1 +1,3 @@
-console.log("Hello World");
+import { findPath } from "./findPath";
+
+findPath([["@", "-", "A", "x"]]);
