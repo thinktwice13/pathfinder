@@ -70,7 +70,7 @@ describe("invalid samples", () => {
   });
 
   maps.forEach(([file, map]) => {
-    it(`should throw error for ${file}`, () => {
+    it(`throws error for ${file}`, () => {
       const errMessage = errFromFilename(file);
 
       expect(() => getPath(map)).toThrowError(errMessage);
