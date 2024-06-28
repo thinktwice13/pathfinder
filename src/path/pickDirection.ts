@@ -3,6 +3,7 @@ import { isIntersection } from "./helpers";
 
 // pick a direction among 1 or more positions valid on a map, or throw an error
 // this is where movement rules are applied
+// TODO refactor: how much is option.direction needed? only used for intersection detection. Option idx could be returned instead
 export function pickDirection(
   currentElement: string,
   options: MoveOption[],

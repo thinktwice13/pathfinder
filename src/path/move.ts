@@ -31,8 +31,10 @@ export function getMoveOptions(
   return options;
 }
 
-// move creates a new point and direction to move to by using relative turning options, filtering them in regards to validity on the ap,
-// then pick current option based on the requirement rules
+// move creates a new point and direction to move to by in following steps:
+// - get relative turning options,
+// - peek into each adjacent cell to create a set of valid options to move to in regards with map boundaries and allowed elements
+// - pick single option to move to or error, based on requirement rules provided. Consider more declarative ruleset to filter options against
 export function move(
   map: string[][],
   visited: Set<string>,
