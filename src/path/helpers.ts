@@ -1,9 +1,12 @@
 import { Direction, Point, Turn } from "./types";
 
+// pointToString creates a string representation of a point
+// consider using it as a method on visited set custom data structure, as that is the only place it is used
 export function pointToString(point: Point) {
   return `${point.row}.${point.col}`;
 }
 
+// intersections is a straight element being crossed in perpendicular direction
 export function isIntersection(el: string, dir: Direction): boolean {
   return (el === "-" && dir % 2 === 1) || (el === "|" && dir % 2 === 0);
 }
@@ -17,6 +20,7 @@ export function getElementValidTurns(el: string): Turn[] {
   return [];
 }
 
+// getNextPoint creates a new point based on the current point and direction
 export function getNextPoint(point: Point, direction: Direction): Point {
   switch (direction) {
     case Direction.Right:

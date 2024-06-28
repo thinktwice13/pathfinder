@@ -27,7 +27,7 @@ export function findStart(map: string[][]) {
   return point!; // point is guaranteed to be set here
 }
 
-// generator yields elements to caller, and additional visited status (previously visited or not
+// generator yields path elements to the caller and PREVIOUSLY visited state of that point, then moves to the next point until the end
 export function* generateElements(
   map: string[][],
 ): Generator<[string, boolean]> {
