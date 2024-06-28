@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { TxtFileReader } from "../src/reader";
-import getPath from "../src/path";
+import { TxtFileReader } from "../reader";
+import getPath from "..//path";
 
 describe("valid samples", () => {
   const files = fs.readdirSync(path.join(__dirname, "samples/ok"));
