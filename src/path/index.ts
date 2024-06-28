@@ -18,7 +18,6 @@ export function findStart(map: string[][]) {
   }
 
   // there can only be one start and one end
-
   if (startCount !== 1 || endCount !== 1) {
     throw new Error(
       "Invalid map with " + startCount + " starts and " + endCount + " ends",
@@ -28,7 +27,10 @@ export function findStart(map: string[][]) {
   return point!; // point is guaranteed to be set here
 }
 
-export function* generatePoints(map: string[][]): Generator<[Point, boolean]> {
+// generator yields elements to caller, and additional visited status (previously visited or not
+export function* generateElements(
+  map: string[][],
+): Generator<[string, boolean]> {
   // initial position. assume any direction for now
   let point = findStart(map);
   let direction = Direction.Right;
@@ -39,13 +41,12 @@ export function* generatePoints(map: string[][]): Generator<[Point, boolean]> {
   while (true) {
     // every point here is valid. Send it with visited status to caller
     // finish if we reach the end, otherwise record it and move on
-    yield [point, visited.has(pointToString(point))];
-
-    if (map[point.row][point.col] === "x") {
+    const el = map[point.row][point.col];
+    yield [el, visited.has(pointToString(point))];
+    if (el === "x") {
       // we're done
       break;
     }
-
     visited.add(pointToString(point));
 
     [point, direction] = move(map, visited, point, direction);
@@ -53,18 +54,17 @@ export function* generatePoints(map: string[][]): Generator<[Point, boolean]> {
   }
 }
 
+// main result producing function, uses point generator to get only relevant positions in the map
 export default function getPath(map: string[][]): Result {
   // init results and set of visited points for validation
   const path: string[] = [];
   const letters: string[] = [];
 
-  for (const [point, visited] of generatePoints(map)) {
-    const el = map[point.row][point.col]; // always valid
-    // push element to path, and if it's a letter not visited before, push it to letters
-    // NOTE: consider this function having its own visited set, as it has different concerns
-    path.push(el);
-    if (/[A-Z]/.test(el) && !visited) {
-      letters.push(el);
+  for (const [element, visited] of generateElements(map)) {
+    // always save it to the path, only save letters if not visited before
+    path.push(element);
+    if (element >= "A" && element <= "Z" && !visited) {
+      letters.push(element);
     }
   }
 

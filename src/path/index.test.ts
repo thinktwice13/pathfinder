@@ -1,5 +1,5 @@
 import { Point } from "./types";
-import { findStart, generatePoints } from "./index";
+import { findStart, generateElements } from "./index";
 
 describe("findStart", () => {
   // tests: [desc, map, throws, expected point]
@@ -23,15 +23,16 @@ describe("findStart", () => {
   });
 });
 
-describe("generatePoints", () => {
+describe("generateElements", () => {
   test("generates correct steps", () => {
     const map = [["@", "-", "x"]];
     // expect yields with the following points: [0, 0], [0, 1], [0, 2], none visited
-    const gen = generatePoints(map);
+    const gen = generateElements(map);
 
-    expect(gen.next().value).toEqual([{ row: 0, col: 0 }, false]);
-    expect(gen.next().value).toEqual([{ row: 0, col: 1 }, false]);
-    expect(gen.next().value).toEqual([{ row: 0, col: 2 }, false]);
+    expect(gen.next().value).toEqual(["@", false]);
+    expect(gen.next().value).toEqual(["-", false]);
+    expect(gen.next().value).toEqual(["x", false]);
+    expect(gen.next().done).toBe(true);
   });
 
   // FIXME: fix pickDirection to handle this case
@@ -42,14 +43,14 @@ describe("generatePoints", () => {
       ["", "+", "+"],
     ];
     // expect yields with the following points: [0, 0], [0, 1], [0, 2], none visited
-    const gen = generatePoints(map);
-    expect(gen.next().value).toEqual([{ row: 1, col: 0 }, false]);
-    expect(gen.next().value).toEqual([{ row: 1, col: 1 }, false]);
-    expect(gen.next().value).toEqual([{ row: 1, col: 2 }, false]);
-    expect(gen.next().value).toEqual([{ row: 2, col: 2 }, false]);
-    expect(gen.next().value).toEqual([{ row: 2, col: 1 }, false]);
-    expect(gen.next().value).toEqual([{ row: 1, col: 1 }, true]);
-    expect(gen.next().value).toEqual([{ row: 0, col: 1 }, false]);
+    const gen = generateElements(map);
+    expect(gen.next().value).toEqual(["@", false]);
+    expect(gen.next().value).toEqual(["A", false]);
+    expect(gen.next().value).toEqual(["+", false]);
+    expect(gen.next().value).toEqual(["+", false]);
+    expect(gen.next().value).toEqual(["+", false]);
+    expect(gen.next().value).toEqual(["A", true]);
+    expect(gen.next().value).toEqual(["x", false]);
     expect(gen.next().done).toBe(true);
   });
 });
