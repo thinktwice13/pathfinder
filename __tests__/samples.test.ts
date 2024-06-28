@@ -3,7 +3,7 @@ import * as path from "path";
 import { TxtFileReader } from "../src/reader";
 import getPath from "../src/path";
 
-describe.only("valid samples", () => {
+describe("valid samples", () => {
   const files = fs.readdirSync(path.join(__dirname, "samples/ok"));
   const maps = files.map((file) => {
     // oprn each file and parse it
