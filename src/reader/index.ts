@@ -34,6 +34,7 @@ export abstract class FileReader extends Error implements MapReader {
   }
 }
 
+// TODO check file existence on create
 export class TxtFileReader extends FileReader {
   filepath: string;
 
