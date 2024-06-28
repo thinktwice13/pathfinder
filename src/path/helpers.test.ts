@@ -15,7 +15,7 @@ describe("pointToString", () => {
   ];
 
   tests.forEach(([point, expected]) => {
-    test(`convert ${point} to ${expected}`, () => {
+    test(`convert ${point.row},${point.col} to ${expected}`, () => {
       expect(pointToString(point)).toEqual(expected);
     });
   });
@@ -75,7 +75,7 @@ describe("getNextPoint", () => {
   ];
 
   tests.forEach(([point, direction, expected]) => {
-    test(`move ${direction} from ${point} to ${expected}`, () => {
+    test(`move ${direction} from ${point.row},${point.col}`, () => {
       expect(getNextPoint(point, direction)).toEqual(expected);
     });
   });
