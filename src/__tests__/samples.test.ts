@@ -30,7 +30,6 @@ describe("valid samples", () => {
 
   maps.forEach(([file, map]) => {
     it(`returns correct result for ${file}`, () => {
-      console.log(file);
       expect(getPath(map)).toEqual(filenameResult[file]);
     });
   });
@@ -45,9 +44,11 @@ const errFromFilename = (filename: string) => {
     case "multibranch.txt":
     // NOTE: requirements asking for fork error, but map is discarded earlier
     // return "Multiple branches";
+    // eslint-disable-next-line no-fallthrough
     case "turnFork.txt":
     // NOTE: requirements asking for multiple branches error, but map is discarded earlier
     // return "Fork";
+    // eslint-disable-next-line no-fallthrough
     case "multistart.txt":
     case "multistart2.txt":
     case "multistart3.txt":
