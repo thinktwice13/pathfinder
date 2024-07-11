@@ -1,5 +1,6 @@
 import { Point } from "./types";
 import { findStart, generateElements } from "./index";
+import { MapInvalidError } from "../errors";
 
 describe("findStart", () => {
   // tests: [desc, map, throws, expected point]
@@ -15,7 +16,7 @@ describe("findStart", () => {
   tests.forEach(([desc, map, throws, expected]) => {
     test(desc, () => {
       if (throws) {
-        expect(() => findStart(map)).toThrow();
+        expect(() => findStart(map)).toThrowError(MapInvalidError);
       } else {
         expect(findStart(map)).toEqual(expected);
       }

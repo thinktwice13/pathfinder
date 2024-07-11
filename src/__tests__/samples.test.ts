@@ -3,6 +3,7 @@ import * as path from "path";
 import { TxtFileReader } from "../reader";
 import getPath from "..//path";
 import { Result } from "../path/types";
+import { MapInvalidError } from "../errors";
 
 const filenameResult: Record<string, Result> = {
   "basic.txt": { path: "@---A---+|C|+---+|+-B-x", letters: "ACB" },
@@ -54,8 +55,8 @@ const errFromFilename = (filename: string) => {
     case "multistart3.txt":
     case "noend.txt":
     case "nostart.txt":
-      return "Invalid map";
-      return "Invalid map";
+      return MapInvalidError.message;
+      return MapInvalidError.message;
     default:
       return undefined;
   }

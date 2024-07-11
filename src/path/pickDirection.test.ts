@@ -1,34 +1,40 @@
 import { Direction, MoveOption } from "./types";
 import { pickDirection } from "./pickDirection";
+import { ElementInvalidError, PathInvalidError } from "../errors";
 
+// TODO Test errors instead of their messages
 describe("pickDirection", () => {
   const doTests = (
-    tests: [string, string, MoveOption[], Direction | string, boolean?][],
+    tests: [string, string, MoveOption[], Direction?, Error?][],
   ) => {
-    tests.forEach(([desc, currentElement, options, want, wantErr]) => {
+    tests.forEach(([desc, currentElement, options, dir, err]) => {
       test(desc, () => {
-        if (wantErr) {
-          expect(() => pickDirection(currentElement, options)).toThrow(
-            want as string,
-          );
+        if (err) {
+          expect(() => pickDirection(currentElement, options)).toThrow(err);
         } else {
-          expect(pickDirection(currentElement, options)).toEqual(want);
+          expect(pickDirection(currentElement, options)).toEqual(dir);
         }
       });
     });
   };
 
   describe("general", function () {
-    // desc, currentElement, options, expected picked direction or error, wantErr
+    // desc, currentElement, options, expected picked direction?, err?
     const tests: [
       string,
       string,
       MoveOption[],
-      result: Direction | string,
-      boolean?,
+      result?: Direction,
+      err?: Error,
     ][] = [
-      ["invalid element", "%", [], "Invalid element", true],
-      ["broken path", "-", [], "Broken path", true],
+      [
+        "Element invalid",
+        "%",
+        [],
+        undefined,
+        ElementInvalidError as unknown as Error,
+      ],
+      ["broken path", "-", [], undefined, PathInvalidError as unknown as Error],
       [
         "straight path",
         "-",
@@ -53,8 +59,8 @@ describe("pickDirection", () => {
             isVisited: false,
           },
         ],
-        "No valid moves",
-        true,
+        undefined,
+        PathInvalidError as unknown as Error,
       ],
       [
         "into unvisited letter",
@@ -100,8 +106,8 @@ describe("pickDirection", () => {
             isVisited: false,
           },
         ],
-        "Fake turn",
-        true,
+        undefined,
+        PathInvalidError as unknown as Error,
       ],
       [
         "turn fork with straight option works because straight is removed",
@@ -134,8 +140,8 @@ describe("pickDirection", () => {
             isVisited: false,
           },
         ],
-        "Fork",
-        true,
+        undefined,
+        PathInvalidError as unknown as Error,
       ],
       [
         "turn into visited intersection",
@@ -205,8 +211,8 @@ describe("pickDirection", () => {
             isVisited: false,
           },
         ],
-        "No valid moves",
-        true,
+        undefined,
+        PathInvalidError as unknown as Error,
       ],
       [
         "start into unvisited intersection plus valid option",
@@ -283,8 +289,8 @@ describe("pickDirection", () => {
             isVisited: false,
           },
         ],
-        "Multiple starting points",
-        true,
+        undefined,
+        PathInvalidError as unknown as Error,
       ],
     ]);
   });
@@ -344,8 +350,8 @@ describe("pickDirection", () => {
           },
           { element: "|", direction: Direction.Up, turn: 3, isVisited: false },
         ],
-        "Multiple paths",
-        true,
+        undefined,
+        PathInvalidError as unknown as Error,
       ],
       [
         "multiple turns, both visited",
@@ -354,8 +360,8 @@ describe("pickDirection", () => {
           { element: "|", direction: Direction.Down, turn: 1, isVisited: true },
           { element: "|", direction: Direction.Up, turn: 3, isVisited: true },
         ],
-        "No valid options",
-        true,
+        undefined,
+        PathInvalidError as unknown as Error,
       ],
     ]);
   });

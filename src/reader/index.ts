@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as os from "os";
+import { FileTypeUnsupportedError } from "../errors";
 
 export interface MapReader {
   read(): string[][];
@@ -17,6 +18,7 @@ export abstract class FileReader implements MapReader {
 
   // only txt and json supported
   static from(filepath: string): FileReader {
+    filepath = filepath.toLocaleLowerCase().trim();
     if (filepath.endsWith(".txt")) {
       return new TxtFileReader(filepath);
     }
@@ -25,7 +27,7 @@ export abstract class FileReader implements MapReader {
       return new JsonFileReader(filepath);
     }
 
-    throw new Error("Unsupported file type");
+    throw new FileTypeUnsupportedError();
   }
 
   static loadFile(filepath: string): string {
