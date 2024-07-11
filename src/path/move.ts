@@ -15,6 +15,7 @@ export function getMoveOptions(
   const options: MoveOption[] = [];
 
   for (const turn of getElementValidTurns(map[point.row][point.col])) {
+    // get next possible element and construst an option if recognized as valid
     const nextDirection = (direction + turn) % 4;
     const nextPoint = getNextPoint(point, nextDirection);
     const nextElement = map[nextPoint.row]?.[nextPoint.col];
@@ -43,6 +44,6 @@ export function move(
 ): [Point, Direction] {
   const options = getMoveOptions(map, visited, point, direction);
   direction = pickDirection(map[point.row][point.col], options);
-  point = getNextPoint(point, direction);
+  point = getNextPoint(point, direction); // Consider movable Point class to encapsulate this logic
   return [point, direction];
 }

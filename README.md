@@ -5,7 +5,7 @@
 #### TODO
 
 ### How to use
-- `npm install` or skip if  you're using `make`.
+- `npm install` or skip if you're using `make`.
 - `npm run dev -- <FILEPATH>` or `make dev` to run in development.
 - `npm run test` or `npm run test:watch` for tests.
 - `make clean` for cleanup (`node_modules`, `coverage`, `dist`)

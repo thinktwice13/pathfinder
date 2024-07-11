@@ -1,6 +1,7 @@
 import { Direction, Point, Result } from "./types";
 import { pointToString } from "./helpers";
 import { move } from "./move";
+import { MapInvalidError } from "../errors";
 
 export function findStart(map: string[][]) {
   let startCount = 0;
@@ -19,7 +20,7 @@ export function findStart(map: string[][]) {
 
   // there can only be one start and one end
   if (startCount !== 1 || endCount !== 1) {
-    throw new Error("Invalid map");
+    throw new MapInvalidError();
   }
 
   return point!; // point is guaranteed to be set here
