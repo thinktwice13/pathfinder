@@ -5,12 +5,11 @@ export interface MapReader {
   read(): string[][];
 }
 
-export abstract class FileReader extends Error implements MapReader {
-  abstract filepath: string;
+export abstract class FileReader implements MapReader {
+  protected readonly filepath: string;
 
-  protected constructor(message: string) {
-    super(message);
-
+  protected constructor(filepath: string) {
+    this.filepath = filepath;
     Object.setPrototypeOf(this, FileReader.prototype);
   }
 
@@ -36,12 +35,8 @@ export abstract class FileReader extends Error implements MapReader {
 
 // TODO check file existence on create
 export class TxtFileReader extends FileReader {
-  filepath: string;
-
   constructor(filepath: string) {
     super(filepath);
-    this.filepath = filepath;
-
     Object.setPrototypeOf(this, TxtFileReader.prototype);
   }
 
@@ -52,12 +47,8 @@ export class TxtFileReader extends FileReader {
 }
 
 export class JsonFileReader extends FileReader {
-  filepath: string;
-
   constructor(filepath: string) {
     super(filepath);
-    this.filepath = filepath;
-
     Object.setPrototypeOf(this, JsonFileReader.prototype);
   }
 

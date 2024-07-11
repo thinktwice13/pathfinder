@@ -28,10 +28,11 @@ describe("TxtFileReader", () => {
     removeTestFile(testFilePath);
   });
 
-  test("instantiate with the correct filepath", () => {
-    const reader = new TxtFileReader(testFilePath);
-    expect(reader.filepath).toBe(testFilePath);
-  });
+  // removed due to the fact that the filepath is a private property and should not be accessed directly
+  // test("instantiate with the correct filepath", () => {
+  //   const reader = new TxtFileReader(testFilePath);
+  //   expect(reader.filepath).toBe(testFilePath);
+  // });
 
   test("read the file and return its content as a 2D array of characters", () => {
     const reader = new TxtFileReader(testFilePath);
