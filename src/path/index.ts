@@ -49,7 +49,7 @@ export function* generateElements(
     visited.add(pointToString(point));
 
     [point, direction] = move(map, visited, point, direction);
-    // TODO: Loops. Keep track picked directions in addition to visited points
+    // TODO: Loops. Keep track of picked directions in addition to visited points
   }
 }
 
